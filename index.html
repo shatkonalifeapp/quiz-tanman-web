@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tanman Assessment</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Razorpay SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
         const firebaseConfig = {
-            // PASTE YOUR FIREBASE CONFIG HERE
-        };
+  apiKey: "AIzaSyDXt3A2bAA6goMKnOSQMbHsFuavTNQlOf4",
+  authDomain: "tanman-fasciamax.firebaseapp.com",
+  projectId: "tanman-fasciamax",
+  storageBucket: "tanman-fasciamax.firebasestorage.app",
+  messagingSenderId: "504111897476",
+  appId: "1:504111897476:web:ff0ae3a9a95567af1c5bd1"
+};
         initializeApp(firebaseConfig);
     </script>
 </head>
 <body>
 
     <main id="app">
-        <!-- The app.js will inject content here -->
+        <section id="auth-screen" class="page"></section>
+        <section id="intake-screen" class="page"></section>
+        <section id="questions-screen" class="page"></section>
+        <section id="result-screen" class="page"></section>
     </main>
 
-    <!-- Main Controller -->
-    <script type="module" src="app.js"></script>
+ <script type="module" src="/app.js"></script>
 </body>
 </html>
