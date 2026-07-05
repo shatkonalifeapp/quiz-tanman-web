@@ -1,29 +1,28 @@
 /**
  * Tanman App - Neuro-Somatic Triage & Matrix Scoring Engine
- * Updated: Replaced medical filters with psychological threat metrics
+ * Updated: Optimized for Vanilla JS SPA integration
  */
 
 export const calculateTriageResults = (answers) => {
-  // 1. Calculate Somatic Sensitivity Index (SSI) -> Range: q1 to q12
+  // 1. Calculate Somatic Sensitivity Index (SSI) -> q1 to q12
   let ssi = 0;
   for (let i = 1; i <= 12; i++) {
-    ssi += answers[`q${i}`] || 0;
+    ssi += parseInt(answers[`q${i}`] || 0);
   }
 
-  // 2. Calculate Neuro-Somatic Load Index (NELI) -> Explicit 12-question subset tracking
-  // Updated to trace the psychological and behavioral stressors seamlessly
+  // 2. Calculate Neuro-Somatic Load Index (NELI)
   const neliQuestions = [
-    'q4', 'q5', 'q6', 'q8', 'q15',  // Core Somatic/Symptom Markers
-    'q21', 'q22', 'q23', 'q24',      // Relational & Trauma Markers
-    'q25', 'q26', 'q27'               // Somatic Armor & Defensive Markers
+    'q4', 'q5', 'q6', 'q8', 'q15',  
+    'q21', 'q22', 'q23', 'q24',      
+    'q25', 'q26', 'q27'               
   ];
   
   let neli = 0;
   neliQuestions.forEach((qKey) => {
-    neli += answers[qKey] || 0;
+    neli += parseInt(answers[qKey] || 0);
   });
 
-  // 3. Tier Matrix Routing Logic (Kept identical for subscription tier continuity)
+  // 3. Tier Matrix Routing Logic
   let assignedTier = "Tier_1_Video";
   
   if (ssi >= 25 || neli >= 27) {
@@ -34,11 +33,16 @@ export const calculateTriageResults = (answers) => {
     assignedTier = "Tier_1_Video"; 
   }
 
-  return { ssi, neli, assignedTier };
+  // Calculate percentage based on 36 questions (assuming max score per question is 3)
+  const totalScore = Object.values(answers).reduce((acc, val) => acc + parseInt(val), 0);
+  const maxScore = Object.keys(tanmanQuestionsTextMap).length * 3;
+  const quiz_total_score_percentage = Math.round((totalScore / maxScore) * 100);
+
+  return { ssi, neli, assignedTier, quiz_total_score_percentage };
 };
 
 export const tanmanQuestionsTextMap = {
-  // === CHAPTER 1: CENTRAL REGULATION & MIGRATORY SENSTIVITY ===
+  // === CHAPTER 1: CENTRAL REGULATION ===
   q1: { text: "Have you undergone multiple clinical imaging scans or blood panels, only to be told that your physical structures appear completely normal?", scaleType: "frequency" },
   q2: { text: "Does your pain regularly shift, migrate, or expand to completely different, unrelated quadrants of your body from day to day?", scaleType: "frequency" },
   q3: { text: "Do minor everyday pressures—like light touch, minor bumps, or tight clothing—cause a distinct physical pain or deep bruising sensation?", scaleType: "intensity" },
@@ -54,34 +58,25 @@ export const tanmanQuestionsTextMap = {
   q11: { text: "When a highly tender muscle spot is pressed, does the pain consistently travel, radiate, or shoot to a completely different part of your body?", scaleType: "frequency" },
   q12: { text: "Is your primary physical discomfort localized to specific regional areas rather than being evenly spread across your entire body?", scaleType: "intensity" },
 
-  // === CHAPTER 3: PERIPHERAL EXHAUSTION & MECHANICAL MARKERS ===
+  // === CHAPTER 3-6: ADDITIONAL MARKERS (Condensed) ===
   q13: { text: "Do you experience unexplained twitching within a specific muscle group, localized night cramps, or a burning sensation in your extremities?", scaleType: "frequency" },
   q14: { text: "Do you regularly suffer from chronic tension headaches, neck strain, or severe jaw tightness/clenching alongside your primary muscle pain?", scaleType: "frequency" },
   q15: { text: "Do you experience a severe lack of physical energy and heavy morning lethargy that makes initiating movement feel physically monumental?", scaleType: "intensity" },
   q16: { text: "Do you spend more than six to seven hours a day locked in a stagnant, sedentary sitting position at a desk or keyboard?", scaleType: "frequency" },
   q17: { text: "Do you work in a highly repetitive, high-focus profession where it feels like your brain has forgotten how to voluntarily relax specific muscle groups?", scaleType: "frequency" },
-  q19: { text: "Is your daily lifestyle characterized by a lack of dietary protein combined with an absence of structured physical resistance exercise?", scaleType: "frequency" },
-
-  // === CHAPTER 4: PSYCHOSOMATIC & PERFECTIONIST STRESSORS ===
-  q20: { text: "Do you feel your physical energy being heavily drained by a highly stressful, exhausting, or chaotic daily environment?", scaleType: "frequency" },
-  // REPLACED q18 WITH YOUR INTEGRATED PERFECTIONIST TARGET QUESTION
   q18: { text: "Do you maintain exceptionally rigid, non-negotiable standards for your own performance, constantly feeling deep physical anxiety or muscle locking if things aren't perfect?", scaleType: "frequency" },
+  q19: { text: "Is your daily lifestyle characterized by a lack of dietary protein combined with an absence of structured physical resistance exercise?", scaleType: "frequency" },
+  q20: { text: "Do you feel your physical energy being heavily drained by a highly stressful, exhausting, or chaotic daily environment?", scaleType: "frequency" },
   q21: { text: "Do you find yourself in a constant state of hyper-alertness, chronic tension, or self-censorship around dominant individuals in your daily life?", scaleType: "frequency" },
   q22: { text: "Does experiencing a sudden emotional withdrawal or conflict with someone in your daily circle trigger an immediate physical state of panic or body locking?", scaleType: "frequency" },
   q23: { text: "When dealing with deep internal or physical stress, do you feel an isolating lack of an active, understanding physical or social support system?", scaleType: "frequency" },
   q24: { text: "Do you experience immediate, severe physical pain 'flare-ups' or total-body muscle locking following a sudden emotional shock or intense stress event?", scaleType: "frequency" },
-
-  // === CHAPTER 5: SOMATIC ARMORING & RELATIONAL INTERACTION ===
   q25: { text: "Have you habitually learned to physically mask your suffering, holding your body stiffly to look strong and capable on the outside?", scaleType: "frequency" },
   q26: { text: "Do you find yourself deeply absorbing and physically taking on the tension, stress, or somatic burdens of those around you?", scaleType: "frequency" },
   q27: { text: "Has your body been stuck in an anxious, defensive 'survival mode' for so long that you find it physically impossible to drop your shoulders or experience true physical relaxation?", scaleType: "frequency" },
-  // INTEGRATED NARCISSISTIC ABUSE / EMPATH COMPLIANCE SIGNATURE MARKER
   q28: { text: "Have you spent significant time navigating relationships where you felt systematically diminished, constantly walking on eggshells to avoid emotional outbursts?", scaleType: "frequency" },
-  // INTEGRATED TRANSGENERATIONAL TRAUMA BOUNDARY MARKER
-  q29: { text: "Is there a distinct history in your family line of chronic widespread physical exhaustion, unresolved deep tension, or severe nervous system fatigue?", scaleType: "certainty" },
+  q29: { text: "Is there a distinct history in your family line of chronic widespread physical exhaustion, unresolved deep tension, or severe nervous system fatigue?", scaleType: "frequency" },
   q30: { text: "Are you experiencing a profound drop in personal vitality, physical drive, or libido, which frequently tracks alongside chronic, system-wide nervous system exhaustion?", scaleType: "intensity" },
-
-  // === CHAPTER 6: INTEGRATED PHYSIOLOGICAL EFFICIENCY & DRIVES ===
   q31: { text: "Do you experience persistent, uncomfortable muscle twitching or deep fascial throbbing that interferes with falling asleep at night?", scaleType: "frequency" },
   q32: { text: "Do you notice your breath becomes shallow, rapid, or completely held in your chest when managing normal, daily intellectual workloads?", scaleType: "frequency" },
   q33: { text: "Does your physical recovery time after mild daily tasks or light home errands take days rather than hours?", scaleType: "intensity" },

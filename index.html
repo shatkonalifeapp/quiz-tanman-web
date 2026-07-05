@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tanman Assessment</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Razorpay SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        const firebaseConfig = {
+            // PASTE YOUR FIREBASE CONFIG HERE
+        };
+        initializeApp(firebaseConfig);
+    </script>
 </head>
 <body>
+
     <main id="app">
-        
-        <section id="intake-screen" class="page active">
-            </section>
-
-        <section id="questions-screen" class="page" style="display:none;">
-            </section>
-
-        <section id="result-screen" class="page" style="display:none;">
-            </section>
-
+        <!-- The app.js will inject content here -->
     </main>
 
+    <!-- Main Controller -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
