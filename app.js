@@ -33,4 +33,4 @@ onAuthStateChanged(auth, (user) => {
         renderAuthScreen();
         showScreen('auth-screen');
     }
-});
+});  
