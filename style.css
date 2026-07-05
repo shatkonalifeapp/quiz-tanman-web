@@ -1,72 +1,72 @@
-/* --- Global Reset & Base --- */
+/* --- Global Reset --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
     background: #1a1a1a; 
     color: #E8F0ED; 
+    overflow-x: hidden;
+}
+
+/* --- Core Page Logic --- */
+.page { 
+    width: 100%; 
+    min-height: 100vh;
+    display: none; /* Default hidden */
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    padding: 20px;
+}
+
+.page.active { 
+    display: flex; /* Flexbox used to center content */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
 }
 
 /* --- Shared Components --- */
 .card { 
+    width: 100%; max-width: 500px;
     background: rgba(255, 255, 255, 0.08); 
     padding: 30px; 
     border-radius: 20px; 
     text-align: center; 
-    margin-bottom: 30px; 
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .primary-btn { 
-    width: 100%; padding: 18px; 
+    width: 100%; max-width: 500px; padding: 18px; 
     background: #D4AF37; border: none; border-radius: 12px; 
-    font-weight: 800; cursor: pointer; 
-    transition: background 0.3s ease; 
-}
-.primary-btn:hover { background: #b8962f; }
-
-/* --- Intake Screen --- */
-.intake-container { padding: 20px; max-width: 500px; margin: auto; }
-.gate-card { 
-    background: rgba(255, 255, 255, 0.03); 
-    border-radius: 16px; padding: 24px; 
-    border: 1px solid rgba(197, 160, 89, 0.2); 
-    margin-bottom: 30px; 
-}
-.text-input { 
-    width: 100%; padding: 15px; margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.05); 
-    border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #FFF;
+    font-weight: 800; cursor: pointer; color: #000;
+    margin-top: 20px;
 }
 
-/* --- Questions Screen --- */
-.questions-container { padding: 20px; max-width: 500px; margin: auto; }
+/* --- Questions & Intake --- */
+.questions-container { width: 100%; max-width: 500px; }
 .header { display: flex; justify-content: space-between; margin-bottom: 20px; color: #BCCBC6; }
 .opt-btn { 
     display: block; width: 100%; padding: 20px; margin-bottom: 12px; 
-    background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); 
-    color: white; border-radius: 12px; cursor: pointer; 
-    transition: background 0.2s ease;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
+    color: white; border-radius: 12px; cursor: pointer; text-align: left;
 }
-.opt-btn:hover { background: rgba(255, 255, 255, 0.1); }
-.opt-btn.active { background: #FFF; color: #000; font-weight: bold; }
+.opt-btn:hover { background: rgba(255, 255, 255, 0.15); }
 
 /* --- Result Screen --- */
-.result-container { padding: 40px 20px; max-width: 450px; margin: auto; text-align: center; }
 .score-circle { 
-    width: 100px; height: 100px; 
-    border: 8px solid #D4AF37; border-radius: 50%; 
+    width: 100px; height: 100px; border: 8px solid #D4AF37; border-radius: 50%; 
     display: flex; align-items: center; justify-content: center; 
     margin: 0 auto 20px; font-weight: bold; font-size: 24px;
 }
 .tier-card { 
+    width: 100%; max-width: 500px;
     background: rgba(255, 255, 255, 0.08); 
     padding: 24px; border-radius: 20px; margin: 20px 0; 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
 }
-.download-section { margin-top: 40px; padding-top: 20px; border-top: 1px solid #3D5A52; }
-.store-link { color: #D4AF37; text-decoration: none; font-weight: bold; display: block; margin-top: 10px; }
-
-/* --- Animation Helpers --- */
-section { opacity: 0; transition: opacity 0.3s ease-in-out; display: none; }
-section.active { opacity: 1; display: block; }
+.store-link { color: #D4AF37; font-weight: bold; display: block; margin-top: 15px; }
