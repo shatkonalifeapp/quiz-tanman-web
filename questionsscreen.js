@@ -1,4 +1,5 @@
-import { tanmanQuestionsTextMap } from './scoringEngine.js'; // Ensure path is correct[cite: 5]
+// Use this exact path:
+import { tanmanQuestionsTextMap, calculateTriageResults } from './scoringEngine.js';
 
 export function renderQuestionsScreen(container) {
     let currentIndex = 0;

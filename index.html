@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"> <!-- Fixed charset warning -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
+    <title>Tanman Assessment</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Load Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
+
     <main id="app">
-        <h1>If you see this, the page is loading!</h1>
+        <!-- These IDs must match exactly what you use in app.js -->
+        <section id="SignUp-Screen" class="page"></section>
+        <section id="intake-screen" class="page"></section>
+        <section id="questions-screen" class="page"></section>
+        <section id="result-screen" class="page"></section>
     </main>
+
+    <script type="module" src="app.js"></script>
 </body>
 </html>

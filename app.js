@@ -1,13 +1,10 @@
 import { auth } from './firebaseConfig.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-
-// UPDATED IMPORTS to match your uploaded file names
-import { renderAuthScreen } from './SignUpScreen.js';
+import { renderSignUpScreen } from './SignUpScreen.js';
 import { renderIntakeScreen } from './intakescreen.js';
 import { renderQuestionsScreen } from './questionsscreen.js';
 import { renderResultScreen } from './resultscreen.js';
 
-// 1. Centralized screen controller
 export function showScreen(screenId) {
     const screens = document.querySelectorAll('.page');
     screens.forEach(s => {
@@ -20,34 +17,17 @@ export function showScreen(screenId) {
         target.style.display = 'flex';
         target.classList.add('active');
     } else {
-        console.error(`CRITICAL: Screen ID "${screenId}" not found.`);
+        console.error(`Screen ID "${screenId}" not found.`);
     }
 }
 
-// 2. Authentication State Listener
 onAuthStateChanged(auth, (user) => {
-    console.log("Auth State:", user ? "User logged in" : "User logged out");
-    
     if (user) {
-        // If logged in, go to intake
-        const container = document.getElementById('intake-screen');
         showScreen('intake-screen');
-        renderIntakeScreen(container);
+        renderIntakeScreen(document.getElementById('intake-screen'));
     } else {
-        // If not logged in, go to signup
-        const container = document.getElementById('auth-screen');
-        showScreen('auth-screen');
-        renderAuthScreen(container);
+        // MATCHED: Now using the exact ID from your HTML
+        showScreen('SignUp-Screen');
+        renderSignUpScreen(document.getElementById('SignUp-Screen'));
     }
 });
-
-// 3. Fallback: If no auth state change detected after a delay, 
-// default to auth screen to prevent "black screen"
-setTimeout(() => {
-    const active = document.querySelector('.page.active');
-    if (!active) {
-        console.log("Defaulting to Auth Screen");
-        showScreen('auth-screen');
-        renderAuthScreen(document.getElementById('auth-screen'));
-    }
-}, 2000);

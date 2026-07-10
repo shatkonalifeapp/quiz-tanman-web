@@ -1,7 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
-export function renderAuthScreen(container) {
+export function renderSignUpScreen(container) {
     container.innerHTML = `
         <div class="card">
             <h1>Create Account</h1>
